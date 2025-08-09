@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Te amo Dannita</title>
+  <style>
+    html,body{height:100%;margin:0;background:#000;color:#ff0000;font-family:monospace;overflow:hidden;}
+    .sky{position:absolute;inset:0;pointer-events:none}
+    .drop{
+      position:absolute;
+      top:-5vh;
+      white-space:nowrap;
+      user-select:none;
+      pointer-events:none;
+      will-change:transform,opacity;
+    }
+    @keyframes fall {
+      0%{transform: translateY(-10vh);opacity:1;}
+      100%{transform: translateY(120vh);opacity:0;}
+    }
+  </style>
+</head>
+<body>
+  <div class="sky" id="sky"></div>
+  <script>
+    (function(){
+      const sky = document.getElementById('sky');
+      const WORD = 'TE AMO MI DANNITA';
+      function rand(min, max){ return Math.random() * (max - min) + min }
+      function randInt(min,max){ return Math.floor(rand(min,max+1)) }
+      function createDrop(){
+        const span = document.createElement('span');
+        span.className = 'drop';
+        span.textContent = WORD;
+        span.style.left = rand(0, 100) + 'vw';
+        span.style.fontSize = randInt(12, 24) + 'px';
+        span.style.color = '#ff0000';
+        const duration = randInt(2000, 6000);
+        span.style.animation = `fall ${duration}ms linear forwards`;
+        span.addEventListener('animationend', () => { span.remove() });
+        sky.appendChild(span);
+      }
+      function loop(){
+        createDrop();
+        setTimeout(loop, randInt(40, 100));
+      }
+      loop();
+    })();
+  </script>
+</body>
+</html>
